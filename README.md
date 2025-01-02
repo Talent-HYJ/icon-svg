@@ -8,7 +8,18 @@
 ```bash
   npm install icon-svg 
 ```
+ ### Attributes
+
+| Attribute | Description | Type | Default |
+| --------- | ----------- | ---- | ------- |
+| src | 必填，svg图标路径 | string | - |
+| color | 图标颜色 | string | #000000 |
+| hover-color | 鼠标悬停颜色 | string | #000000 |
+| width | 图标宽度 | number\|string | 24 |
+| height | 图标高度 | number\|string | 24 |
+
  ### Usage
+
   ```bash
   // 在框架中使用 
 
@@ -38,7 +49,6 @@
 
   
   ```
-
 
 
 
