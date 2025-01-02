@@ -1,12 +1,12 @@
-# icon-svg
+# icon-svg-component
 
 ### Information
 ```bash
-  icon-svg webComponent 支持svg图标的颜色，大小修改，hover颜色。
+  icon-svg-component webComponent 支持svg图标的颜色，大小修改，hover颜色。
 ```
 ### Install
 ```bash
-  npm install icon-svg 
+  npm install icon-svg-component 
 ```
  ### Attributes
 
@@ -24,7 +24,7 @@
   // 在框架中使用 
 
   // main.js  eg: vue
-  import "icon-svg"
+  import "icon-svg-component"
 
   // 在组件中使用
 
@@ -45,9 +45,6 @@
     <icon-svg src="**/*.svg" color="#000000" hover-color="#fff"></icon-svg> // 使用组件
   </body>
   </html>
- 
-
-  
   ```
 
 
