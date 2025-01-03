@@ -1,6 +1,6 @@
 {
   "name": "icon-svg-component",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "icon-svg webComponent support modify color and size,and support hover-color",
   "main": "./dist/es/index.js",
   "module": "./dist/es/index.js",
