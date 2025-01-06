@@ -13,17 +13,54 @@ customElements.define(
  * @param {number} height - 图标高度
  */
   class extends HTMLElement {
-    eventElement: HTMLDivElement;
+    eventElement: HTMLDivElement | null = null;
 
-    svgObject: HTMLObjectElement;
+    svgObject: HTMLObjectElement | null = null;
 
     svgElement: SVGSVGElement | null = null;
 
+    defaultColor: string;
+
     constructor() {
       super();
+      this.defaultColor = '#000000';
+    }
 
-      // 创建内部结构
-      // const container = document.createElement('div');
+    static get observedAttributes() {
+      return ['src', 'color', 'width', 'height', 'hover-color'];
+    }
+
+    attributeChangedCallback(name: string, oldValue: string, newValue: string) {
+      if (oldValue === newValue) {
+        return;
+      }
+      if (name === 'src') {
+        this.svgObject?.setAttribute('data', newValue);
+      } else if (name === 'width') {
+        this.setSize(newValue, this.getAttribute('height') as any | undefined);
+      } else if (name === 'height') {
+        this.setSize(this.getAttribute('width') as any | undefined, newValue);
+      } else if (name === 'color') {
+        this.setColors(newValue);
+      }
+    }
+
+    handleMouseEnter() {
+      this.classList.add('is-hover');
+      if (this.svgElement && this.getAttribute('hover-color')) {
+        this.setColors(this.getAttribute('hover-color') || '');
+      }
+    }
+
+    handleMouseLeave() {
+      this.classList.remove('is-hover');
+      if (this.svgElement) {
+        this.setColors(this.getAttribute('color') || this.defaultColor);
+      }
+    }
+
+    connectedCallback() {
+    // 当元素被插入到DOM中时执行的代码（可选）
       this.className = 'icon-svg';
       this.style.display = 'inline-flex';
       this.style.alignItems = 'center';
@@ -44,56 +81,21 @@ customElements.define(
       this.eventElement = eventElement;
       this.svgObject = svgObject;
       this.svgObject.addEventListener('load', () => {
-        this.svgElement = this.svgObject?.contentDocument?.getElementsByTagName('svg')[0] || null;
-        this.setColors(this.getAttribute('color') || '');
+        this.svgElement = this.svgObject?.contentDocument?.getElementsByTagName('svg')[0]
+        || null;
+        this.setColors(this.getAttribute('color') || this.defaultColor);
         this.setSize(this.getAttribute('width') as any | undefined, this.getAttribute('height') as any | undefined);
       });
       // 添加事件监听器
-      this.addEventListener('mouseenter', this.handleMouseEnter.bind(this));
-      this.addEventListener('mouseleave', this.handleMouseLeave.bind(this));
-    }
-
-    static get observedAttributes() {
-      return ['src', 'color', 'width', 'height', 'hover-color'];
-    }
-
-    attributeChangedCallback(name: string, oldValue: string, newValue: string) {
-      if (oldValue === newValue) {
-        return;
-      }
-      if (name === 'src') {
-        this.svgObject.setAttribute('data', newValue);
-      } else if (name === 'width') {
-        this.setSize(newValue, this.getAttribute('height') as any | undefined);
-      } else if (name === 'height') {
-        this.setSize(this.getAttribute('width') as any | undefined, newValue);
-      } else if (name === 'color') {
-        this.setColors(newValue);
-      }
-    }
-
-    handleMouseEnter() {
-      this.classList.add('is-hover');
-      if (this.svgElement && this.getAttribute('hover-color')) {
-        this.setColors(this.getAttribute('hover-color') || '');
-      }
-    }
-
-    handleMouseLeave() {
-      this.classList.remove('is-hover');
-      if (this.svgElement && this.getAttribute('color')) {
-        this.setColors(this.getAttribute('color') || '');
-      }
-    }
-
-    connectedCallback() {
-    // 当元素被插入到DOM中时执行的代码（可选）
-      this.updateStyles();
+      this.addEventListener('mouseenter', this.handleMouseEnter);
+      this.addEventListener('mouseleave', this.handleMouseLeave);
     }
 
     // eslint-disable-next-line class-methods-use-this
     disconnectedCallback() {
     // 当元素从DOM中移除时执行的代码（可选）
+      this.removeEventListener('mouseenter', this.handleMouseEnter);
+      this.removeEventListener('mouseleave', this.handleMouseLeave);
     }
 
     // eslint-disable-next-line class-methods-use-this

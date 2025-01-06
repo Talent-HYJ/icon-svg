@@ -23,7 +23,7 @@ module.exports = {
     {
       format: 'es',
       dir: path.dirname('dist/es/index.esm.js'),
-      preserveModules: true,
+      preserveModules: false,
       preserveModulesRoot: 'src',
     },
     {
