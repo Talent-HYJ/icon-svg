@@ -80,11 +80,13 @@ customElements.define(
 
       this.eventElement = eventElement;
       this.svgObject = svgObject;
+      this.svgObject.style.visibility = 'hidden';
       this.svgObject.addEventListener('load', () => {
         this.svgElement = this.svgObject?.contentDocument?.getElementsByTagName('svg')[0]
         || null;
         this.setColors(this.getAttribute('color') || this.defaultColor);
         this.setSize(this.getAttribute('width') as any | undefined, this.getAttribute('height') as any | undefined);
+        (this.svgObject as HTMLObjectElement).style.visibility = 'visible';
       });
       // 添加事件监听器
       this.addEventListener('mouseenter', this.handleMouseEnter);
